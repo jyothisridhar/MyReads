@@ -10,9 +10,7 @@ class BooksApp extends React.Component {
     super(props);
     this.state = {
       bookList: [],
-      currentlyReading: [],
-      wantToRead: [],
-      read: []
+      searchResults: []
     };
   }
 
@@ -26,22 +24,48 @@ class BooksApp extends React.Component {
   }
 
   updateShelf = (book, newShelf) => {
-    console.log(book);
     BooksAPI.update(book, newShelf)
-      .then(states => {
-        const {currentlyReading, wantToRead, read} = states;
+      .then(response => {
         this.setState((prevState) => ({
           bookList: prevState.bookList.map(b => b.id === book.id ? {...b, shelf: newShelf} : b)
         }))
       });
+      console.log(this.state.bookList)
   }
 
-  loadShelf = (cur, want, read) => {
+  addToShelf = (book, newShelf) => {
+    book.shelf = newShelf;
+    BooksAPI.update(book, newShelf)
+      .then(response => {
+        this.setState((prevState) => ({
+          bookList: prevState.bookList.concat(book)
+        }))
+      });
+      console.log("after adding book from search",this.state.bookList)
+  }
 
+  handleSearch = (query) => {
+    BooksAPI.search(query)
+    .then((response) => {
+      response.error ? this.setState({searchResults: []}) : this.updateSearchResults(response)
+    });
+  }
+
+  updateSearchResults = (response) => {
+    for(const item of response){
+      for(const book of this.state.bookList){
+        if(item.id === book.id){
+          item.shelf = book.shelf;
+        }
+        else{
+          item.shelf = 'none'
+        }
+      }
+    }
+    this.setState({searchResults: response});
   }
 
   render() {
-    console.log(this.state.bookList);
     const currentlyReading = this.state.bookList.filter(book => {
       return book.shelf === 'currentlyReading';
     });
@@ -60,13 +84,13 @@ class BooksApp extends React.Component {
               <div className="list-books-title">
                 <h1>MyReads</h1>
               </div>
-              <Shelves shelfTitle="Currently Reading" booksOnShelf={currentlyReading} handleShelf={this.updateShelf} bookList={this.state.bookList}/>
+              <Shelves shelfTitle="Currently Reading" booksOnShelf={currentlyReading} handleShelf={this.updateShelf} />
               <Shelves shelfTitle="Want to Read" booksOnShelf={wantToRead} handleShelf={this.updateShelf}/>
               <Shelves shelfTitle="Read" booksOnShelf={readBooks} handleShelf={this.updateShelf}/>
             </div>
           )} />
           <Route path="/search" render={() => (
-            <SearchBooks />
+            <SearchBooks onSearch={this.handleSearch} response={this.state.searchResults} handleShelf={this.addToShelf}/>
           )} />
       </div>
     )
