@@ -30,7 +30,6 @@ class BooksApp extends React.Component {
           bookList: prevState.bookList.map(b => b.id === book.id ? {...b, shelf: newShelf} : b)
         }))
       });
-      console.log(this.state.bookList)
   }
 
   addToShelf = (book, newShelf) => {
@@ -41,13 +40,15 @@ class BooksApp extends React.Component {
           bookList: prevState.bookList.concat(book)
         }))
       });
-      console.log("after adding book from search",this.state.bookList)
   }
 
   handleSearch = (query) => {
     BooksAPI.search(query)
     .then((response) => {
-      response.error ? this.setState({searchResults: []}) : this.updateSearchResults(response)
+      console.log(response);
+      if(response){
+        response.error ? this.setState({searchResults: []}) : this.updateSearchResults(response)
+      }
     });
   }
 
