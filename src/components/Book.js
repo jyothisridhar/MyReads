@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import '../App.css';
 
 class Book extends Component{
-  // state = {
-  //   book: {}
-  // }
-
+  static propTypes = {
+    book: PropTypes.object.isRequired,
+    onShelfChange: PropTypes.func.isRequired
+  }
   updateBookShelf = (newshelf) => {
     const {book, onShelfChange} = this.props;
     console.log(book);
@@ -13,7 +14,7 @@ class Book extends Component{
   }
   render(){
     const {book} = this.props;
-    const backgroundImage = book.imageLinks.thumbnail;
+    const backgroundImage = book.imageLinks ? book.imageLinks.thumbnail : '';
     const authors = book.authors ? book.authors.join(',') : '';
 
     return (
