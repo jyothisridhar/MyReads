@@ -1,15 +1,21 @@
 import React, {Component} from 'react';
 import Book from './Book';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 import '../App.css';
 
 class Shelves extends Component {
+  static propTypes = {
+    shelfTitle: PropTypes.string.isRequired,
+    booksOnShelf: PropTypes.array.isRequired,
+    handleShelf: PropTypes.func.isRequired
+  };
+
   updateBookShelf = (updatedBook, shelf) =>{
     this.props.handleShelf(updatedBook, shelf);
-    console.log(updatedBook, shelf);
   }
   render(){
-    const {shelfTitle, booksOnShelf, bookList} = this.props;
+    const {shelfTitle, booksOnShelf} = this.props;
 
     return (
       <div className="list-books-content">
@@ -21,7 +27,7 @@ class Shelves extends Component {
                 {
                   booksOnShelf.map((book, index) => (
                     <li key={index}>
-                      <Book book={book} onShelfChange={this.updateBookShelf} bookList={bookList}/>
+                      <Book book={book} onShelfChange={this.updateBookShelf}/>
                     </li>
                   ))
                 }

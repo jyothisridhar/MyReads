@@ -1,11 +1,18 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import Book from './Book';
+import PropTypes from 'prop-types';
 import '../App.css';
 
 class SearchBooks extends Component {
   state = {
     query: ''
+  }
+
+  static propTypes = {
+    onSearch: PropTypes.func.isRequired,
+    response: PropTypes.array.isRequired,
+    handleShelf: PropTypes.func.isRequired
   }
 
   onSearch = (query) => {
