@@ -8,23 +8,20 @@ class Book extends Component{
 
   updateBookShelf = (newshelf) => {
     const {book, onShelfChange} = this.props;
-    //book.shelf = newshelf;
     console.log(book);
     onShelfChange(book, newshelf);
   }
   render(){
     const {book} = this.props;
     const backgroundImage = book.imageLinks.thumbnail;
-    // const backgroundImage = bookList.filter(b => b.id === bookID).map(bObj => bObj.imageLinks.thumbnail)
-    //                         .map(bT => bT.title);
-    const authors = book.authors.length > 1 ? (book.authors.map(a => {return a+', '})) : book.authors[0];
+    const authors = book.authors ? book.authors.join(',') : '';
 
     return (
       <div className="book">
         <div className="book-top">
           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("'+backgroundImage+'")' }}></div>
           <div className="book-shelf-changer">
-            <select onChange={(event) => this.updateBookShelf(event.target.value)}>
+            <select onChange={(event) => this.updateBookShelf(event.target.value)} value={book.shelf ? book.shelf: 'none'}>
               <option value="move" disabled>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
