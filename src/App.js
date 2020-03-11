@@ -45,7 +45,6 @@ class BooksApp extends React.Component {
   handleSearch = (query) => {
     BooksAPI.search(query)
     .then((response) => {
-      console.log(response);
       if(response){
         response.error ? this.setState({searchResults: []}) : this.updateSearchResults(response)
       }
@@ -53,7 +52,6 @@ class BooksApp extends React.Component {
   }
 
   updateSearchResults = (response) => {
-    console.log(response);
     for(let r of response){
       for(let b of this.state.bookList){
         if(r.id === b.id){
@@ -61,12 +59,10 @@ class BooksApp extends React.Component {
         }
       }
     }
-    console.log(response);
     this.setState({searchResults: response});
   }
 
   render() {
-    console.log(this.state.bookList);
     const currentlyReading = this.state.bookList.filter(book => {
       return book.shelf === 'currentlyReading';
     });

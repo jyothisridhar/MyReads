@@ -30,7 +30,6 @@ class SearchBooks extends Component {
 
   render(){
     const response = this.props.response;
-    console.log(response);
     return (
         <div className="search-books">
           <div className="search-books-bar">

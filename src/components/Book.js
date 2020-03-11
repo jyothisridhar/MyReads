@@ -9,7 +9,6 @@ class Book extends Component{
   }
   updateBookShelf = (newshelf) => {
     const {book, onShelfChange} = this.props;
-    console.log(book);
     onShelfChange(book, newshelf);
   }
   render(){
