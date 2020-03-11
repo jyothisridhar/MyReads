@@ -53,20 +53,20 @@ class BooksApp extends React.Component {
   }
 
   updateSearchResults = (response) => {
-    for(const item of response){
-      for(const book of this.state.bookList){
-        if(item.id === book.id){
-          item.shelf = book.shelf;
-        }
-        else{
-          item.shelf = 'none'
+    console.log(response);
+    for(let r of response){
+      for(let b of this.state.bookList){
+        if(r.id === b.id){
+          r.shelf = b.shelf
         }
       }
     }
+    console.log(response);
     this.setState({searchResults: response});
   }
 
   render() {
+    console.log(this.state.bookList);
     const currentlyReading = this.state.bookList.filter(book => {
       return book.shelf === 'currentlyReading';
     });
