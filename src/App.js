@@ -14,6 +14,9 @@ class BooksApp extends React.Component {
     };
   }
 
+  /**
+  * @description Get all books from BooksAPI
+  */
   componentDidMount = () => {
     BooksAPI.getAll()
       .then((bookList) => {
@@ -23,6 +26,11 @@ class BooksApp extends React.Component {
       });
   }
 
+  /**
+  * @description Updates shelf with new book
+  * @param {object} book
+  * @param {string} newShelf
+  */
   updateShelf = (book, newShelf) => {
     BooksAPI.update(book, newShelf)
       .then(response => {
@@ -32,6 +40,11 @@ class BooksApp extends React.Component {
       });
   }
 
+  /**
+  * @description Adds shelf with new book from search page
+  * @param {object} book
+  * @param {string} newShelf
+  */
   addToShelf = (book, newShelf) => {
     book.shelf = newShelf;
     BooksAPI.update(book, newShelf)
@@ -42,6 +55,10 @@ class BooksApp extends React.Component {
       });
   }
 
+  /**
+  * @description updates state with search results from search page
+  * @param {string} query
+  */
   handleSearch = (query) => {
     BooksAPI.search(query)
     .then((response) => {
@@ -51,6 +68,10 @@ class BooksApp extends React.Component {
     });
   }
 
+  /**
+  * @description updates books in the search response with the correct shelf it belongs to
+  * @param {string} query
+  */
   updateSearchResults = (response) => {
     for(let r of response){
       for(let b of this.state.bookList){

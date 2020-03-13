@@ -11,6 +11,11 @@ class Shelves extends Component {
     handleShelf: PropTypes.func.isRequired
   };
 
+  /**
+  * @description Send callback to parent component and update shelf with new book
+  * @param {object} updatedBook
+  * @param {string} shelf
+  */
   updateBookShelf = (updatedBook, shelf) =>{
     this.props.handleShelf(updatedBook, shelf);
   }

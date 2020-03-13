@@ -15,6 +15,10 @@ class SearchBooks extends Component {
     handleShelf: PropTypes.func.isRequired
   }
 
+  /**
+  * @description Set state with search query
+  * @param {string} query
+  */
   onSearch = (query) => {
     this.setState({
       query: query
@@ -24,6 +28,11 @@ class SearchBooks extends Component {
     }
   }
 
+  /**
+  * @description Send a callback to parent component with required props to update bookshelf
+  * @param {object} updatedBook
+  * @param {string} shelf
+  */
   updateBookShelf = (updatedBook, shelf) =>{
     this.props.handleShelf(updatedBook, shelf);
   }

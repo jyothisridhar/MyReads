@@ -7,10 +7,16 @@ class Book extends Component{
     book: PropTypes.object.isRequired,
     onShelfChange: PropTypes.func.isRequired
   }
+
+  /**
+  * @description send a callback to parent component to update book shelf
+  * @param {string} newShelf
+  */
   updateBookShelf = (newshelf) => {
     const {book, onShelfChange} = this.props;
     onShelfChange(book, newshelf);
   }
+
   render(){
     const {book} = this.props;
     const backgroundImage = book.imageLinks ? book.imageLinks.thumbnail : '';
