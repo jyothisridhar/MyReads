@@ -46,7 +46,7 @@ class BooksApp extends React.Component {
   * @param {string} newShelf
   */
   addToShelf = (book, newShelf) => {
-    if(book.shelf === 'none'){
+    if(!book.shelf){
       book.shelf = newShelf;
       BooksAPI.update(book, newShelf)
         .then(response => {
@@ -67,7 +67,6 @@ class BooksApp extends React.Component {
   handleSearch = (query) => {
     BooksAPI.search(query)
     .then((response) => {
-      console.log(response);
       if(response){
         response.error ? this.setState({searchResults: []}) : this.updateSearchResults(response)
       }
