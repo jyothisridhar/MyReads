@@ -46,13 +46,18 @@ class BooksApp extends React.Component {
   * @param {string} newShelf
   */
   addToShelf = (book, newShelf) => {
-    book.shelf = newShelf;
-    BooksAPI.update(book, newShelf)
-      .then(response => {
-        this.setState((prevState) => ({
-          bookList: prevState.bookList.concat(book)
-        }))
-      });
+    if(book.shelf === 'none'){
+      book.shelf = newShelf;
+      BooksAPI.update(book, newShelf)
+        .then(response => {
+          this.setState((prevState) => ({
+            bookList: prevState.bookList.concat(book)
+          }))
+        });
+    }
+    else{
+      this.updateShelf(book, newShelf);
+    }
   }
 
   /**
@@ -62,8 +67,12 @@ class BooksApp extends React.Component {
   handleSearch = (query) => {
     BooksAPI.search(query)
     .then((response) => {
+      console.log(response);
       if(response){
         response.error ? this.setState({searchResults: []}) : this.updateSearchResults(response)
+      }
+      else{
+        this.setState({searchResults: []});
       }
     });
   }
@@ -102,10 +111,10 @@ class BooksApp extends React.Component {
               <div className="list-books-title">
                 <h1>MyReads</h1>
               </div>
-              <Shelves shelfTitle="Currently Reading" booksOnShelf={currentlyReading} handleShelf={this.updateShelf} />
-              <Shelves shelfTitle="Want to Read" booksOnShelf={wantToRead} handleShelf={this.updateShelf}/>
-              <Shelves shelfTitle="Read" booksOnShelf={readBooks} handleShelf={this.updateShelf}/>
-            </div>
+                <Shelves shelfTitle="Currently Reading" booksOnShelf={currentlyReading} handleShelf={this.updateShelf} />
+                <Shelves shelfTitle="Want to Read" booksOnShelf={wantToRead} handleShelf={this.updateShelf}/>
+                <Shelves shelfTitle="Read" booksOnShelf={readBooks} handleShelf={this.updateShelf}/>
+              </div>
           )} />
           <Route path="/search" render={() => (
             <SearchBooks onSearch={this.handleSearch} response={this.state.searchResults} handleShelf={this.addToShelf}/>
