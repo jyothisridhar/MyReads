@@ -38,7 +38,7 @@ class SearchBooks extends Component {
   }
 
   render(){
-    const response = this.props.response;
+    const {response} = this.props;
     return (
         <div className="search-books">
           <div className="search-books-bar">
@@ -54,16 +54,19 @@ class SearchBooks extends Component {
           <div className="search-books-results">
             <ol className="books-grid">
             {
-              response.length === 0 ? (
-                <div>No books found</div>
-              ) :
-              (
-                response.map((book, index) => (
-                  <li key={index}>
-                    <Book book={book} onShelfChange={this.updateBookShelf}/>
-                  </li>
-                ))
-              )
+                this.state.query === '' ? (
+                  <div>Search for books</div>
+                ) :
+                  response.length === 0 ? (
+                    <div>No books found</div>
+                  ) :
+                  (
+                    response.map((book, index) => (
+                      <li key={index}>
+                        <Book book={book} onShelfChange={this.updateBookShelf}/>
+                      </li>
+                    ))
+                  )
             }
             </ol>
           </div>
